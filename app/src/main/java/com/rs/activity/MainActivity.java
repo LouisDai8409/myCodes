@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
         }
+        readyToStart();
         Log.d(TAG, "onRequestPermissionsResult: 权限都已经授予");
 
     }
@@ -123,19 +124,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * 停止录制屏幕
-     * @param view
+     * 用户允许录制后的操作
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
-    public void stopRecord(View view) {
-        ScreenRecordUtil.stopRecord();
-        readyToStart();
-    }
-
-    public void showList(View view){
-        Intent it = new Intent(this, ShowListActivity.class);
-        startActivity(it);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -149,18 +142,27 @@ public class MainActivity extends AppCompatActivity {
 //                    service.putExtra("data", data);
 //                    startService(service);
                     readyToStop();
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ScreenRecordUtil.prepare();
-                        }
-                    });
-
+                    ScreenRecordUtil.prepare();
                     ScreenRecordUtil.startRecord();
+
                 } else {
                     Log.d(TAG, "onActivityResult: 录屏被禁止");
                 }
         }
+    }
+
+    /**
+     * 停止录制屏幕
+     * @param view
+     */
+    public void stopRecord(View view) {
+        ScreenRecordUtil.stopRecord();
+        readyToStart();
+    }
+
+    public void showList(View view){
+        Intent it = new Intent(this, ShowListActivity.class);
+        startActivity(it);
     }
 
 

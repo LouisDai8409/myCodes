@@ -32,6 +32,7 @@ public class ShowListActivity extends AppCompatActivity {
     }
 
     public void findRecords() {
+        Log.d(TAG, "findRecords: "+getExternalFilesDir(Environment.DIRECTORY_MOVIES).getPath());
         File[] mp4s = getExternalFilesDir(Environment.DIRECTORY_MOVIES).listFiles();
 
         List<Record> recordList = FileUtil.createRecordsInfo(mp4s);
