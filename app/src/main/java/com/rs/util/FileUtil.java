@@ -1,8 +1,17 @@
 package com.rs.util;
 
 import android.media.MediaMetadataRetriever;
+import android.util.Log;
+
+import com.rs.pojo.Record;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class FileUtil {
+
+    private static final String TAG = "FileUtil";
 
     private static MediaMetadataRetriever retriever;
 
@@ -23,5 +32,17 @@ public abstract class FileUtil {
 
         String str_time = (minute < 10 ? "0" + minute : minute + "") + ":" + (second < 10 ? "0" + second : second + "");
         return str_time;
+    }
+
+    public static List<Record> createRecordsInfo(File[] mp4s){
+        List<Record> records = new ArrayList<>();
+        for (File each : mp4s) {
+            Record r = new Record();
+            r.setDuration(getDuration(each.getPath()));
+            r.setFileName(each.getName());
+            r.setPath(each.getPath());
+            records.add(r);
+        }
+        return records;
     }
 }
